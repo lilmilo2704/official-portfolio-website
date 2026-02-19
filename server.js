@@ -24,15 +24,11 @@ const contactEmail = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
   secure: false,
+  family: 4, // ✅ FORCE IPv4 (THIS FIXES Render error)
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
-  requireTLS: true,
-  tls: {
-    rejectUnauthorized: false,
-    family: 4
-  }
 });
 
 contactEmail.verify((error) => {
