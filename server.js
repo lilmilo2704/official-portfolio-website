@@ -1,40 +1,19 @@
 require("dotenv").config();
 
-const dns = require("dns");
-dns.setDefaultResultOrder("ipv4first");
-
 const express = require("express");
 const router = express.Router();
 const cors = require("cors");
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
 
 const app = express();
-
-app.use(cors({
-  origin: "*", // or your Vercel domain later
-}));
-
+app.use(cors());
 app.use(express.json());
 app.use("/", router);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server Running on port ${PORT}`));
 
-const contactEmail = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
-
-contactEmail.verify((error) => {
-  if (error) {
-    console.log("SMTP Error:", error);
-  } else {
-    console.log("Ready to Send ✅");
-  }
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 router.post("/contact", async (req, res) => {
   try {
@@ -43,31 +22,25 @@ router.post("/contact", async (req, res) => {
     const message = req.body.message;
     const phone = req.body.phone;
 
-    const mail = {
-      from: `"Portfolio Contact" <${process.env.EMAIL_USER}>`,
-      replyTo: email, // IMPORTANT: allows you to reply to sender
-      to: process.env.EMAIL_USER,
-      subject: `Portfolio Contact from ${name}`,
+    await resend.emails.send({
+      from: "Portfolio Contact <onboarding@resend.dev>",
+      to: ["dangthienbaominh@gmail.com"],
+      reply_to: email,
+      subject: `New message from ${name}`,
       html: `
         <h3>New Contact Form Submission</h3>
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Phone:</strong> ${phone}</p>
-        <p><strong>Message:</strong><br>${message}</p>
+        <p><strong>Message:</strong></p>
+        <p>${message}</p>
       `,
-    };
-
-    await contactEmail.sendMail(mail);
-
-    res.status(200).json({
-      code: 200,
-      status: "Message Sent"
     });
+
+    res.status(200).json({ success: true });
 
   } catch (error) {
-    console.log("Send error:", error);
-    res.status(500).json({
-      status: "Error sending message"
-    });
+    console.error("Send error:", error);
+    res.status(500).json({ success: false });
   }
 });
