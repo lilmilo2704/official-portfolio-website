@@ -21,10 +21,7 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server Running on port ${PORT}`));
 
 const contactEmail = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
-  family: 4, // ✅ FORCE IPv4 (THIS FIXES Render error)
+  service: "gmail",
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
