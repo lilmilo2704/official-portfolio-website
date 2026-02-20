@@ -20,7 +20,7 @@ export const Footer = () => {
             <p><strong>Get in touch via</strong></p>
             <p>Phone: +64 415855950 (Australia) / +84 352858208 (Vietnam)</p>
             <p>Email: dangthienbaominh@outlook.com</p>
-            <p>Copyright 2026. All Rights Reserved</p>
+            <p>Copyright 2026 Thien Bao Minh Dang. All Rights Reserved</p>
           </Col>
         </Row>
       </Container>
