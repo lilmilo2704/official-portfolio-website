@@ -18,7 +18,7 @@ export const Footer = () => {
               <a href="https://github.com/lilmilo2704" target="_blank" rel="noopener noreferrer"><img src={navIcon3} alt="" /></a>
             </div>
             <p><strong>Get in touch via</strong></p>
-            <p>Phone: +64 415855950 (Australia) / +84 352858208 (Vietnam)</p>
+            <p>Phone: +61 415855950 (Australia) / +84 352858208 (Vietnam)</p>
             <p>Email: dangthienbaominh@outlook.com</p>
             <p>Copyright 2026 Thien Bao Minh Dang. All Rights Reserved</p>
           </Col>
