@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import contactImg from "../assets/img/contact-img.svg";
 import 'animate.css';
@@ -15,6 +15,13 @@ export const Contact = () => {
   const [formDetails, setFormDetails] = useState(formInitialDetails);
   const [buttonText, setButtonText] = useState('Send');
   const [status, setStatus] = useState({});
+
+  // Show alert popup when status.message changes
+  useEffect(() => {
+    if (status && status.message) {
+      alert(status.message);
+    }
+  }, [status]);
 
   const onFormUpdate = (category, value) => {
       setFormDetails({
@@ -94,12 +101,7 @@ export const Contact = () => {
                       <textarea rows="6" value={formDetails.message} placeholder="Message" onChange={(e) => onFormUpdate('message', e.target.value)}></textarea>
                       <button type="submit"><span>{buttonText}</span></button>
                     </Col>
-                    {
-                      status.message &&
-                      <Col>
-                        <p className={status.success === false ? "danger" : "success"}>{status.message}</p>
-                      </Col>
-                    }
+                    {/* Status message is now shown as a popup, so it is not rendered here */}
                   </Row>
                 </form>
               </div>}
